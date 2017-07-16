@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <script src="angular.min.js"></script>
+<!--
+<script src="ui-bootstrap-tpls-0.13.3.js"></script>
+<link href="bootstrap.min.css" rel="stylesheet">
+-->
 <body>
 
 <div ng-app="ikea" ng-controller="productCtrl">
@@ -17,22 +21,30 @@
         <th> Part </th>
         <th> Size </th>
         <th> Number </th>
-        <th> Way </th>
+        <th> Method </th>
         <th> Cost </th>
         <th> No. </th>
         <th> Picture </th>
     </tr>
     <tr ng-repeat="p in regularProducts">
-        <td>{{p.part}}</td>
-        <td>{{p.size}}</td>
-        <td>{{p.number}}</td>
-        <td>{{p.way}}</td>
+        <td>
+            <input list="parts" ng-model="p.part"></input>
+            <datalist id="parts">
+              <option value="Living Room">
+              <option value="Main Bedroom">
+              <option value="Secondary Bedroom">
+              <option value="Balcony ">
+            </datalist>  
+        </td>
+        <td><input type="number" ng-model="p.size"></td>
+        <td><input type="number" ng-model="p.number"></td>
+        <td>{{p.method}}</td>
         <td>{{p.cost}}</td>
-        <td>{{p.no}}</td>
-        <td>{{p.picture}}</td>
+        <td><input type="text" ng-model="p.no"></td>
+        <td><img height="256" width="192" ng-src="image/{{p.no}}.jpg" alt="Image Not Found"/></td>
         <td ng-click="removeRegularItem($index)">×</td>
     </tr>
-<table>
+</table>
 <button ng-click="addRegularItem()">Add</button>
 
 <h2>Hard Products</h2>
@@ -46,29 +58,49 @@
         <th> Cost </th>
     </tr>
     <tr ng-repeat="p in hardProducts">
-        <td>{{p.part}}</td>
-        <td>{{p.type}}</td>
-        <td>{{p.no}}</td>
-        <td>{{p.size}}</td>
-        <td>{{p.square}}</td>
-        <td>{{p.cost}}</td>
+        <td>
+        <input list="parts" ng-model="p.part"></input>
+            <datalist id="parts">
+              <option value="Living Room">
+              <option value="Main Bedroom">
+              <option value="Secondary Bedroom">
+              <option value="Balcony ">
+            </datalist>  
+        </td>
+        <td>
+        <input list="types" ng-model="p.type"></input>
+            <datalist id="types">
+              <option value="Aluminum Louvers">
+              <option value="Roman curtain">
+              <option value="Wood blinds">
+            </datalist>  
+        </td>
+        <td><input type="text" ng-model="p.no"></td>
+        <td><input type="number" ng-model="p.size" min="0"></td>
+        <td><input type="number" ng-model="p.square" min="0"></td>
+        <td><input type="number" value={{Math.ceil(p.square)*150}} min="0"></td>
         <td ng-click="removeHardItem($index)">×</td>
     </tr>
-<table>
+</table>
 
 <button ng-click="addHardItem()">Add</button>
 </div>
+<br></br>
+<br></br>
 
 <script>
 var app = angular.module('ikea', []);
 app.controller('productCtrl', function($scope) {
+    $scope.Math=Math;
     $scope.regularProducts = [ ];
+    $scope.Parts = [ "Living Room", "Main Bedroom", "Secondary Bedroom", "Balcony " ];
+    
     $scope.addRegularItem = function() {
         var newItem = { 
             part: " ", 
             size: 0,
             number: 0,
-            way: 0,
+            method: 0,
             cost: 0,
             no: 0,
             picture: "" 
@@ -99,6 +131,8 @@ app.controller('productCtrl', function($scope) {
         $scope.errortext = "";    
         $scope.hardProducts.splice(id, 1);
     }
+    
+    
 });
 </script>
 
