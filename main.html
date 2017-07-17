@@ -20,7 +20,7 @@
     <tr>
         <th> Part </th>
         <th> Size </th>
-        <th> Number </th>
+        <th> Area </th>
         <th> Method </th>
         <th> Cost </th>
         <th> No. </th>
@@ -30,16 +30,18 @@
         <td>
             <input list="parts" ng-model="p.part"></input>
             <datalist id="parts">
-              <option value="Living Room">
-              <option value="Main Bedroom">
-              <option value="Secondary Bedroom">
-              <option value="Balcony ">
+              <option ng-repeat="x in Parts" value="{{x}}"/>
             </datalist>  
         </td>
-        <td><input type="number" ng-model="p.size"></td>
-        <td><input type="number" ng-model="p.number"></td>
-        <td>{{p.method}}</td>
-        <td>{{p.cost}}</td>
+        <td><input type="text" ng-model="p.size"></td>
+        <td><input type="number" ng-model="p.area" min="0" ng-change="updateRegularProductCost($index)"></td>
+        <td>
+            <input list="methods" ng-model="p.method" ng-change="updateRegularProductCost($index)"></input>
+            <datalist id="methods">
+              <option ng-repeat="m in Methods" value="{{m}}"/>
+            </datalist>  
+        </td>
+        <td><input type="number" ng-model="p.cost" min="0"></td>
         <td><input type="text" ng-model="p.no"></td>
         <td><img height="256" width="192" ng-src="image/{{p.no}}.jpg" alt="Image Not Found"/></td>
         <td ng-click="removeRegularItem($index)">×</td>
@@ -61,11 +63,8 @@
         <td>
         <input list="parts" ng-model="p.part"></input>
             <datalist id="parts">
-              <option value="Living Room">
-              <option value="Main Bedroom">
-              <option value="Secondary Bedroom">
-              <option value="Balcony ">
-            </datalist>  
+              <option ng-repeat="x in Parts" value="{{x}}"/>
+            </datalist>   
         </td>
         <td>
         <input list="types" ng-model="p.type"></input>
@@ -76,31 +75,45 @@
             </datalist>  
         </td>
         <td><input type="text" ng-model="p.no"></td>
-        <td><input type="number" ng-model="p.size" min="0"></td>
-        <td><input type="number" ng-model="p.square" min="0"></td>
-        <td><input type="number" value={{Math.ceil(p.square)*150}} min="0"></td>
+        <td><input type="text" ng-model="p.size"></td>
+        <td><input type="number" ng-model="p.square" min="0" ng-change="updateHardProductCost($index)"></td>
+        <td><input type="number" ng-model="p.cost" min="0"></td>
         <td ng-click="removeHardItem($index)">×</td>
     </tr>
 </table>
 
 <button ng-click="addHardItem()">Add</button>
+
+<br></br>
+<h2>Total Cost: {{getTotal()}}</h2>
+
 </div>
 <br></br>
 <br></br>
-
 <script>
 var app = angular.module('ikea', []);
 app.controller('productCtrl', function($scope) {
     $scope.Math=Math;
     $scope.regularProducts = [ ];
-    $scope.Parts = [ "Living Room", "Main Bedroom", "Secondary Bedroom", "Balcony " ];
+    $scope.Parts = [ "Living Room", "Main Bedroom", "Secondary Bedroom", "Balcony" ];
+    
+    $scope.methodsPrice = {
+        'A': 100,
+        'B': 200,
+        'C': 300
+    };
+    
+    $scope.Methods = [ ];
+    for ( x in $scope.methodsPrice ) {
+        $scope.Methods.push(x);
+    }
     
     $scope.addRegularItem = function() {
         var newItem = { 
-            part: " ", 
-            size: 0,
-            number: 0,
-            method: 0,
+            part: "", 
+            size: "",
+            area: 0,
+            method: "",
             cost: 0,
             no: 0,
             picture: "" 
@@ -113,12 +126,18 @@ app.controller('productCtrl', function($scope) {
         $scope.regularProducts.splice(id, 1);
     }
     
+    $scope.updateRegularProductCost = function (id) {
+        $scope.errortext = "";
+        var pd = $scope.regularProducts[id];
+        pd.cost = $scope.methodsPrice[pd.method] * pd.area;
+    }
+    
     
     $scope.hardProducts = [ ];
     $scope.addHardItem = function() {
         var newItem = { 
-            part: " ", 
-            type: " ",
+            part: "", 
+            type: "",
             no: 0,
             size: 0,
             square: 0,
@@ -132,7 +151,24 @@ app.controller('productCtrl', function($scope) {
         $scope.hardProducts.splice(id, 1);
     }
     
+    $scope.updateHardProductCost = function (id) {
+        $scope.errortext = "";
+        var pd = $scope.hardProducts[id];
+        pd.cost = Math.ceil(pd.square) * 150;
+    }
     
+    $scope.getTotal = function () {
+        var ret = 0;
+        for ( i in $scope.regularProducts ) {
+            ret += $scope.regularProducts[i].cost;
+        }
+        for ( i in $scope.hardProducts ) {
+            ret += $scope.hardProducts[i].cost;
+        }        
+        
+        return ret;
+    }
+        
 });
 </script>
 
