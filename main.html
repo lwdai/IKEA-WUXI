@@ -13,7 +13,7 @@
 <p>Name : <input type="text" ng-model="name"></p>
 <p>Address : <input type="text" ng-model="address"></p>
 <p>Phone : <input type="text" ng-model="phone"></p>
-<p>Date : <input type="date" ng-model="date"></p>
+<p>Date : <input type="date" ng-model="date" ></p>
 
 <h2>Regular Products</h2>
 <table>
@@ -44,7 +44,7 @@
         <td><input type="number" ng-model="p.cost" min="0"></td>
         <td><input type="text" ng-model="p.no"></td>
         <td><img height="256" width="192" ng-src="image/{{p.no}}.jpg" alt="Image Not Found"/></td>
-        <td ng-click="removeRegularItem($index)">×</td>
+        <td ng-click="removeRegularItem($index)"> X </td>
     </tr>
 </table>
 <button ng-click="addRegularItem()">Add</button>
@@ -78,22 +78,25 @@
         <td><input type="text" ng-model="p.size"></td>
         <td><input type="number" ng-model="p.square" min="0" ng-change="updateHardProductCost($index)"></td>
         <td><input type="number" ng-model="p.cost" min="0"></td>
-        <td ng-click="removeHardItem($index)">×</td>
+        <td ng-click="removeHardItem($index)"> X </td>
     </tr>
 </table>
 
 <button ng-click="addHardItem()">Add</button>
 
 <br></br>
-<h2>Total Cost: {{getTotal()}}</h2>
+<h2>{{myData}} Total Cost: {{getTotal()}}</h2>
 
 </div>
 <br></br>
 <br></br>
 <script>
 var app = angular.module('ikea', []);
-app.controller('productCtrl', function($scope) {
-    $scope.Math=Math;
+app.controller('productCtrl', function($scope, $http) {
+    
+    $scope.date = new Date();
+    
+
     $scope.regularProducts = [ ];
     $scope.Parts = [ "Living Room", "Main Bedroom", "Secondary Bedroom", "Balcony" ];
     
