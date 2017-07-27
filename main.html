@@ -10,10 +10,11 @@
 <div ng-app="ikea" ng-controller="productCtrl">
  
 <h1> IKEA WUXI </h1>
+<h2>Order ID: {{getOrderId()}}<h2>
 <p>Name : <input type="text" ng-model="name"></p>
 <p>Address : <input type="text" ng-model="address"></p>
 <p>Phone : <input type="text" ng-model="phone"></p>
-<p>Date : <input type="date" ng-model="date" ></p>
+<p>Date : <input type="date" ng-model="date"></p>
 
 <h2>Regular Products</h2>
 <table>
@@ -30,7 +31,7 @@
         <td>
             <input list="parts" ng-model="p.part"></input>
             <datalist id="parts">
-              <option ng-repeat="x in Parts" value="{{x}}"/>
+              <option ng-repeat="x in data.parts" value="{{x}}"/>
             </datalist>  
         </td>
         <td><input type="text" ng-model="p.size"></td>
@@ -55,7 +56,8 @@
         <th> Part </th>
         <th> Type </th>
         <th> No </th>
-        <th> Size </th>
+        <th> Width </th>
+        <th> Height </th>
         <th> Square </th>
         <th> Cost </th>
     </tr>
@@ -63,7 +65,7 @@
         <td>
         <input list="parts" ng-model="p.part"></input>
             <datalist id="parts">
-              <option ng-repeat="x in Parts" value="{{x}}"/>
+              <option ng-repeat="x in data.parts" value="{{x}}"/>
             </datalist>   
         </td>
         <td>
@@ -75,8 +77,9 @@
             </datalist>  
         </td>
         <td><input type="text" ng-model="p.no"></td>
-        <td><input type="text" ng-model="p.size"></td>
-        <td><input type="number" ng-model="p.square" min="0" ng-change="updateHardProductCost($index)"></td>
+        <td><input type="text" ng-model="p.width" ng-change="updateHardProductCost($index)"></td>
+        <td><input type="text" ng-model="p.height" ng-change="updateHardProductCost($index)"></td>
+        <td>{{p.height*p.width | number: 1}}</td>
         <td><input type="number" ng-model="p.cost" min="0"></td>
         <td ng-click="removeHardItem($index)"> X </td>
     </tr>
@@ -85,8 +88,9 @@
 <button ng-click="addHardItem()">Add</button>
 
 <br></br>
-<h2>{{myData}} Total Cost: {{getTotal()}}</h2>
-
+<h2>{{statusCode}}{{data}} Total Cost: {{getTotal()}}</h2>
+<br></br>
+<button ng-click="printPage()">Print</button>
 </div>
 <br></br>
 <br></br>
@@ -94,22 +98,24 @@
 var app = angular.module('ikea', []);
 app.controller('productCtrl', function($scope, $http) {
     
+    $scope.statusCode = 123;
+    $scope.data = "xyz";
+    
+    $http.get("http://localhost:8080/io?get").then(function(response) {
+        $scope.statusCode = response.status;
+        $scope.data = response.data;
+        
+        $scope.Methods = Object.keys($scope.data.methodsPrice);
+    });
+    
+    $scope.getOrderId = function() {
+        return ("000000" + $scope.data.orderId).slice(-6);
+    }
+   
+  
     $scope.date = new Date();
     
-
-    $scope.regularProducts = [ ];
-    $scope.Parts = [ "Living Room", "Main Bedroom", "Secondary Bedroom", "Balcony" ];
-    
-    $scope.methodsPrice = {
-        'A': 100,
-        'B': 200,
-        'C': 300
-    };
-    
-    $scope.Methods = [ ];
-    for ( x in $scope.methodsPrice ) {
-        $scope.Methods.push(x);
-    }
+    $scope.regularProducts = [ ];    
     
     $scope.addRegularItem = function() {
         var newItem = { 
@@ -132,7 +138,7 @@ app.controller('productCtrl', function($scope, $http) {
     $scope.updateRegularProductCost = function (id) {
         $scope.errortext = "";
         var pd = $scope.regularProducts[id];
-        pd.cost = $scope.methodsPrice[pd.method] * pd.area;
+        pd.cost = $scope.data.methodsPrice[pd.method] * pd.area;
     }
     
     
@@ -142,7 +148,8 @@ app.controller('productCtrl', function($scope, $http) {
             part: "", 
             type: "",
             no: 0,
-            size: 0,
+            width: 0,
+            height: 0,
             square: 0,
             cost: 0, 
         };
@@ -157,7 +164,7 @@ app.controller('productCtrl', function($scope, $http) {
     $scope.updateHardProductCost = function (id) {
         $scope.errortext = "";
         var pd = $scope.hardProducts[id];
-        pd.cost = Math.ceil(pd.square) * 150;
+        pd.cost = Math.ceil(pd.width*pd.height) * 150;
     }
     
     $scope.getTotal = function () {
@@ -171,7 +178,19 @@ app.controller('productCtrl', function($scope, $http) {
         
         return ret;
     }
+    
+    $scope.printPage = function() {
+
+        $scope.data.orderId += 1;
+        $http.get("http://localhost:8080/io?write=" + encodeURIComponent(JSON.stringify($scope.data)));
         
+        document.title = $scope.name + '-' + $scope.phone + '-' + $scope.date.toDateString();
+        window.print();
+        
+        
+        
+    }
+     
 });
 </script>
 

@@ -6,8 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class IKEAServer {
-    private String fileName = "../data.json";
-    
+    private String fileName = "data.json";
+
     class IOHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
 
@@ -23,6 +23,9 @@ public class IKEAServer {
 
                 Files.write(Paths.get(fileName), content.getBytes());
             }
+
+            t.getResponseHeaders().add("Access-Control-Allow-Origin","*");
+
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
