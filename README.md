@@ -2,6 +2,12 @@
 A single-page application that can be saved and printed by user.   
 ---------------------
 
+First, you have to install Git and Java. 
+
+then https://stackoverflow.com/questions/1678520/javac-not-working-in-windows-command-prompt to set varaible after downlaoding java.
+
+
+
 ###To build in Linux:
 > $ cd src  
 > $ make  
