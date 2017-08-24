@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class IKEAServer {
-    private String fileName = "data.json";
+    private String fileName = System.getProperty("user.dir") + "\\..\\data.json";
 
     class IOHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {

@@ -5,8 +5,9 @@ app.controller('productCtrl', function($scope, $http) {
     
     $http.get("http://localhost:8080/io?get").then(function(response) {
         $scope.data = response.data;
-        
         $scope.Methods = Object.keys($scope.data.methodsPrice);
+    }).catch(function(err){
+        console.log(err)
     });
     
     $scope.getOrderId = function() {
@@ -22,7 +23,7 @@ app.controller('productCtrl', function($scope, $http) {
         var newItem = { 
             part: "", 
             size: "",
-            area: 0,
+            number: 0,
             method: "",
             cost: 0,
             no: 0,
@@ -38,11 +39,21 @@ app.controller('productCtrl', function($scope, $http) {
         $scope.regularProducts.splice(id, 1);
     }
     
-    $scope.updateRegularProductCost = function (id) {
-        var pd = $scope.regularProducts[id];
-        if (pd.method in $scope.data.methodsPrice) {
-            pd.cost = $scope.data.methodsPrice[pd.method] * pd.area;
-        }
+    $scope.updateRegularProductCost = function (el) {
+        console.log(el)
+        var id = el.$index;
+        var sum = 0;
+         var pd = $scope.regularProducts[id];
+
+        var selectedValues = el.p.method;
+            for (var value of selectedValues) {
+                     if (value in $scope.data.methodsPrice) {
+                            sum += $scope.data.methodsPrice[value] * pd.number;
+                     }
+            }
+
+            pd.cost = sum;
+
     }
     
     

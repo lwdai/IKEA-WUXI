@@ -23,7 +23,7 @@
         <th></th>
         <th> Part </th>
         <th> Size </th>
-        <th> Area </th>
+        <th> Number </th>
         <th> Method </th>
         <th> Cost </th>
         <th> No. </th>
@@ -45,18 +45,15 @@
         
         <td>
         <input type="number" 
-        ng-model="p.area" ng-style="{'width':'64px' }" min="0" 
-        ng-change="updateRegularProductCost($index)">
+        ng-model="p.number" ng-style="{'width':'64px' }" min="0" 
+        ng-change="updateRegularProductCost(this)">
         </td>
         
         <td>
-            <input list="methods" ng-model="p.method" ng-style="{'width':'128px' }"
-            ng-change="updateRegularProductCost($index)">
-            </input>
-            
-            <datalist id="methods">
-              <option ng-repeat="m in Methods" value="{{m}}"/>
-            </datalist>  
+
+            <select id="methods" ng-model="p.method" multiple ng-style="{'width':'128px' }" ng-change="updateRegularProductCost(this)">
+              <option ng-repeat="m in Methods" value="{{m}}"> {{m}} </option>
+            </select>  
         </td>
         
         <td>
@@ -106,6 +103,7 @@
               <option value="Aluminum Louvers">
               <option value="Roman curtain">
               <option value="Wood blinds">
+              <option value="abcd">
             </datalist>  
         </td>
         
