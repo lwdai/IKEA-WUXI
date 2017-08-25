@@ -17,6 +17,7 @@ app.controller('productCtrl', function($scope, $http) {
   
     $scope.date = new Date();
     
+    //Regular Products 
     $scope.regularProducts = [ ];    
     
     $scope.addRegularItem = function() {
@@ -56,7 +57,7 @@ app.controller('productCtrl', function($scope, $http) {
 
     }
     
-    
+    //Hard Products
     $scope.hardProducts = [ ];
     $scope.addHardItem = function() {
         var newItem = { 
@@ -81,6 +82,30 @@ app.controller('productCtrl', function($scope, $http) {
     $scope.updateHardProductCost = function (id) {
         var pd = $scope.hardProducts[id];
         pd.cost = Math.ceil(pd.width*pd.height) * $scope.data.hardProductPrice;
+    }
+
+    //rail products 
+    $scope.railProducts = [ ];
+    $scope.addRailItem = function() {
+        var newItem = {
+            type: "",
+            singleLength: 0,
+            doubleLength: 0,
+            cost: 0,
+        };
+        $scope.railProducts.push(newItem);
+    }
+
+    $scope.addRailItem();
+
+    $scope.removeRailItem = function(id) {
+        $scope.errortext = "";
+        $scope.railProducts.splice(id, 1);
+    }
+
+    $scope.updateRailProductCost = function (id) {
+        var pd = $scope.railProducts[id];
+
     }
     
     // total cost

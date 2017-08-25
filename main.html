@@ -7,28 +7,28 @@
 
 <div ng-app="ikea" ng-controller="productCtrl">
  
-<h1> IKEA WUXI </h1>
-<h2>Order ID: {{getOrderId()}}</h2>
+<h1> 宜家 无锡 </h1>
+<h2>订单号: {{getOrderId()}}</h2>
 
-<h3>Name : <input type="text"  ng-style="{'width':'30%','font-size':'25px'}" ng-model="name"></h3>
+<h3>姓名 : <input type="text"  ng-style="{'width':'30%','font-size':'25px'}" ng-model="name"></h3>
 
-<h3>Address : <textarea ng-style="{'height':'50px','width':'20%','font-size':'20px','vertical-align':'middle'}" ng-model="address"></textarea></h3>
+<h3>地址 : <textarea ng-style="{'height':'50px','width':'20%','font-size':'20px','vertical-align':'middle'}" ng-model="address"></textarea></h3>
 
-<h3>Phone : <input type="text" ng-style="{'font-size':'20px'}" ng-model="phone"></h3>
+<h3>电话 : <input type="text" ng-style="{'font-size':'20px'}" ng-model="phone"></h3>
 
-<h3>Date : <input type="date" ng-style="{'font-size':'20px'}" ng-model="date"></h3>
+<h3>日期 : <input type="date" ng-style="{'font-size':'20px'}" ng-model="date"></h3>
 
-<h2>Regular Products</h2>
+<h2>普通产品</h2>
 <table>
     <tr>
         <th></th>
-        <th> Part </th>
-        <th> Size </th>
-        <th> Number </th>
-        <th> Method </th>
-        <th> Cost </th>
-        <th> No. </th>
-        <th> Picture </th>
+        <th> 部位 </th>
+        <th> 尺寸 </th>
+        <th> 布幅 </th>
+        <th> 加工方式 </th>
+        <th> 加工费用 </th>
+        <th> 货号 </th>
+        <th> 图片 </th>
     </tr>
     <tr ng-repeat="p in regularProducts" >
         <td><button ng-click="removeRegularItem($index)"> Remove </button></td>
@@ -68,7 +68,7 @@
         </td>
         
         <td>
-        <img height="128" width="96" ng-src="image/{{p.no}}.jpg" alt="Image Not Found"/>
+        <img height="128" width="96" ng-src="image/{{p.no}}.jpg" alt="找不到图片"/>
         </td>
         
         
@@ -76,17 +76,17 @@
 </table>
 <button ng-click="addRegularItem()">Add</button>
 
-<h2>Hard Products</h2>
+<h2>硬质产品</h2>
 <table>
     <tr>
         <th> </th>
-        <th> Part </th>
-        <th> Type </th>
-        <th> No </th>
-        <th> Width </th>
-        <th> Height </th>
-        <th >Square </th>
-        <th> Cost </th>
+        <th> 部位 </th>
+        <th> 类型 </th>
+        <th> 型号 </th>
+        <th> 宽度 </th>
+        <th> 高度 </th>
+        <th > 平方 </th>
+        <th> 加工费用 </th>
     </tr>
     <tr ng-repeat="p in hardProducts">
         <td><button ng-click="removeHardItem($index)"> Remove </button></td>
@@ -136,8 +136,52 @@
 
 <button ng-click="addHardItem()">Add</button>
 
+
+<h2>导轨</h2>
+<table>
+    <tr>
+        <th> </th>
+        <th> 类型 </th>
+        <th> 单层长度 </th>
+        <th> 双层长度 </th>
+        <th> 加工费用 </th>
+    </tr>
+    <tr ng-repeat="p in railProducts">
+        <td><button ng-click="removeRailProducts($index)"> Remove </button></td>
+        
+        <td>
+        <input list="types" ng-model="p.type"></input>
+            <datalist id="types">
+              <option value="Aluminum Louvers">
+              <option value="Roman curtain">
+              <option value="Wood blinds">
+              <option value="abcd">
+            </datalist>  
+        </td>
+        
+        <td>
+        <input type="text" ng-model="p.singleLength" ng-change="updateRailProductCost($index)"
+        ng-style="{'width':'64px' }">
+        </td>
+        
+        <td>
+        <input type="text" ng-model="p.doubleLength" ng-change="updateRailProductCost($index)"
+        ng-style="{'width':'64px' }">
+        </td>
+        
+              
+        <td>
+        <input type="number" step="0.01" ng-model="p.cost" min="0"
+        ng-style="{'width':'96px' }">
+        </td>
+        
+    </tr>
+</table>
+
+<button ng-click="addRailItem()">Add</button>
+
 <br></br>
-<h2>Total Cost: {{getTotal()}}</h2>
+<h2>费用总计: {{getTotal()}}</h2>
 
 <button ng-click="printPage()">Print</button>
 </div>
