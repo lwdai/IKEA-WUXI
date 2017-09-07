@@ -46,7 +46,7 @@
         
         <td>
         <input type="number" 
-        ng-model="p.number" ng-style="{'width':'64px' }" min="0" 
+        ng-model="p.number" ng-style="{'width':'64px' }" 
         ng-change="updateRegularProductCost(this)">
         </td>
         
@@ -58,12 +58,12 @@
         </td>
         
         <td>
-        <input type="number" ng-model="p.cost" min="0"
+        <input type="number" ng-model="p.cost"
         ng-style="{'width':'96px' }">
         </td>
         
         <td>
-        <input type="text" ng-model="p.no"
+        <input type="number" ng-model="p.no"
         ng-style="{'width':'96px' }">
         </td>
         
@@ -109,16 +109,16 @@
         </td>
         
         <td>
-        <input type="text" ng-model="p.no" ng-style="{'width':'96px' }">
+        <input type="number" ng-model="p.no" ng-style="{'width':'96px' }">
         </td>
         
         <td>
-        <input type="text" ng-model="p.width" ng-change="updateHardProductCost($index)"
+        <input type="number" ng-model="p.width" ng-change="updateHardProductCost($index)"
         ng-style="{'width':'64px' }">
         </td>
         
         <td>
-        <input type="text" ng-model="p.height" ng-change="updateHardProductCost($index)"
+        <input type="number" ng-model="p.height" ng-change="updateHardProductCost($index)"
         ng-style="{'width':'64px' }">
         </td>
         
@@ -127,7 +127,7 @@
         </td>
         
         <td>
-        <input type="number" step="0.01" ng-model="p.cost" min="0"
+        <input type="number" ng-model="p.cost"
         ng-style="{'width':'96px' }">
         </td>
         
@@ -160,18 +160,18 @@
         </td>
         
         <td>
-        <input type="text" ng-model="p.singleLength" ng-change="updateRailProductCost($index)"
+        <input type="number" ng-model="p.singleLength" ng-change="updateRailProductCost($index)"
         ng-style="{'width':'64px' }">
         </td>
         
         <td>
-        <input type="text" ng-model="p.doubleLength" ng-change="updateRailProductCost($index)"
+        <input type="number" ng-model="p.doubleLength" ng-change="updateRailProductCost($index)"
         ng-style="{'width':'64px' }">
         </td>
         
               
         <td>
-        <input type="number" step="0.01" ng-model="p.cost" min="0"
+        <input type="number" ng-model="p.cost"
         ng-style="{'width':'96px' }">
         </td>
         
@@ -180,7 +180,7 @@
 
 <button ng-click="addRailItem()">Add</button>
 <br></br>
-<h2>安装费 : <input type="number" ng-style="{'width':'96px'}" min="0" ng-model="installation"></h2>
+<h2>安装费 : <input type="number" ng-style="{'width':'96px'}" ng-model="installation"></h2>
        
 <h2>费用总计: {{getTotal()}}</h2>
 
