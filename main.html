@@ -147,7 +147,7 @@
         <th> 加工费用 </th>
     </tr>
     <tr ng-repeat="p in railProducts">
-        <td><button ng-click="removeRailProducts($index)"> Remove </button></td>
+        <td><button ng-click="removeRailItem($index)"> Remove </button></td>
         
         <td>
         <input list="types" ng-model="p.type"></input>
@@ -179,8 +179,9 @@
 </table>
 
 <button ng-click="addRailItem()">Add</button>
-
 <br></br>
+<h2>安装费 : <input type="number" ng-style="{'width':'96px'}" min="0"></h2>
+       
 <h2>费用总计: {{getTotal()}}</h2>
 
 <button ng-click="printPage()">Print</button>

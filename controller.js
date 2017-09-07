@@ -81,7 +81,11 @@ app.controller('productCtrl', function($scope, $http) {
     
     $scope.updateHardProductCost = function (id) {
         var pd = $scope.hardProducts[id];
-        pd.cost = Math.ceil(pd.width*pd.height) * $scope.data.hardProductPrice;
+        if (pd.width*pd.height <= 1) {
+            pd.cost =  1 * $scope.data.hardProductPrice;
+        } else {
+            pd.cost = pd.width*pd.height * $scope.data.hardProductPrice;
+        }
     }
 
     //rail products 
@@ -105,7 +109,7 @@ app.controller('productCtrl', function($scope, $http) {
 
     $scope.updateRailProductCost = function (id) {
         var pd = $scope.railProducts[id];
-
+        pd.cost = pd.singleLength * 50 + pd.doubleLength * 80;
     }
     
     // total cost
@@ -117,7 +121,10 @@ app.controller('productCtrl', function($scope, $http) {
         for ( i in $scope.hardProducts ) {
             ret += $scope.hardProducts[i].cost;
         }        
-        
+        for ( i in $scope.railProducts ) {
+            ret += $scope.railProducts[i].cost;
+        }        
+
         return ret;
     }
     
