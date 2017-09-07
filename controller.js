@@ -124,7 +124,7 @@ app.controller('productCtrl', function($scope, $http) {
         for ( i in $scope.railProducts ) {
             ret += $scope.railProducts[i].cost;
         }        
-
+        ret += $scope.installation;
         return ret;
     }
     
