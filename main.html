@@ -63,7 +63,7 @@
         </td>
         
         <td>
-        <input type="number" ng-model="p.no"
+        <input type="text" ng-model="p.no"
         ng-style="{'width':'96px' }">
         </td>
         
@@ -99,26 +99,22 @@
         </td>
         
         <td>
-        <input list="types" ng-model="p.type"></input>
-            <datalist id="types">
-              <option value="Aluminum Louvers">
-              <option value="Roman curtain">
-              <option value="Wood blinds">
-              <option value="abcd">
-            </datalist>  
+        <select id="types" ng-model="p.type" ng-style="{'width':'128px' }" ng-change="updateHardProductCost(this)">
+              <option ng-repeat="t in Types" value="{{t}}"> {{t}} </option>
+            </select>  
         </td>
         
         <td>
-        <input type="number" ng-model="p.no" ng-style="{'width':'96px' }">
+        <input type="text" ng-model="p.no" ng-style="{'width':'96px' }">
         </td>
         
         <td>
-        <input type="number" ng-model="p.width" ng-change="updateHardProductCost($index)"
+        <input type="number" ng-model="p.width" ng-change="updateHardProductCost(this)"
         ng-style="{'width':'64px' }">
         </td>
         
         <td>
-        <input type="number" ng-model="p.height" ng-change="updateHardProductCost($index)"
+        <input type="number" ng-model="p.height" ng-change="updateHardProductCost(this)"
         ng-style="{'width':'64px' }">
         </td>
         
@@ -156,7 +152,7 @@
               <option value="Roman curtain">
               <option value="Wood blinds">
               <option value="abcd">
-            </datalist>  
+            </datalist>
         </td>
         
         <td>
@@ -171,7 +167,7 @@
         
               
         <td>
-        <input type="number" ng-model="p.cost"
+        <input type="number"  ng-model="p.cost"
         ng-style="{'width':'96px' }">
         </td>
         
@@ -180,7 +176,8 @@
 
 <button ng-click="addRailItem()">Add</button>
 <br></br>
-<h2>安装费 : <input type="number" ng-style="{'width':'96px'}" ng-model="installation"></h2>
+
+<h2>安装费 : <input type="number" ng-model="installation" min="0" ng-style="{'width':'96px'}"> </h2>
        
 <h2>费用总计: {{getTotal()}}</h2>
 

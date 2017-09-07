@@ -6,6 +6,7 @@ app.controller('productCtrl', function($scope, $http) {
     $http.get("http://localhost:8080/io?get").then(function(response) {
         $scope.data = response.data;
         $scope.Methods = Object.keys($scope.data.methodsPrice);
+        $scope.Types = Object.keys($scope.data.hardProductPrice);
     }).catch(function(err){
         console.log(err)
     });
@@ -44,17 +45,16 @@ app.controller('productCtrl', function($scope, $http) {
         console.log(el)
         var id = el.$index;
         var sum = 0;
-         var pd = $scope.regularProducts[id];
+        var pd = $scope.regularProducts[id];
 
-        var selectedValues = el.p.method;
-            for (var value of selectedValues) {
-                     if (value in $scope.data.methodsPrice) {
-                            sum += $scope.data.methodsPrice[value] * pd.number;
-                     }
+        var selectedValues = el.p.method
+        for (var value of selectedValues) {   
+            if (value in $scope.data.methodsPrice) {
+                sum += $scope.data.methodsPrice[value] * pd.number;
             }
+        }
 
-            pd.cost = sum;
-
+        pd.cost = sum;
     }
     
     //Hard Products
@@ -79,13 +79,22 @@ app.controller('productCtrl', function($scope, $http) {
         $scope.hardProducts.splice(id, 1);
     }
     
-    $scope.updateHardProductCost = function (id) {
+    $scope.updateHardProductCost = function (el) {
+        console.log(el)
+        var id = el.$index;
+        var sum = 0;
         var pd = $scope.hardProducts[id];
-        if (pd.width*pd.height <= 1) {
-            pd.cost =  1 * $scope.data.hardProductPrice;
-        } else {
-            pd.cost = pd.width*pd.height * $scope.data.hardProductPrice;
-        }
+
+        var selectedValues = el.p.type
+            if (selectedValues in $scope.data.hardProductPrice) {
+                if (pd.width*pd.height <= 1) {
+                   sum += $scope.data.hardProductPrice[selectedValues] * 1;
+                } else {
+                   sum += $scope.data.hardProductPrice[selectedValues] * pd.width*pd.height;
+                }
+                
+            }
+        pd.cost = sum;
     }
 
     //rail products 
@@ -111,7 +120,7 @@ app.controller('productCtrl', function($scope, $http) {
         var pd = $scope.railProducts[id];
         pd.cost = pd.singleLength * 50 + pd.doubleLength * 80;
     }
-    
+    $scope.installation = 0;
     // total cost
     $scope.getTotal = function () {
         var ret = 0;
