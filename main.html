@@ -14,13 +14,16 @@
 <h1> 宜家 无锡 </h1>
 <h2>订单号: {{getOrderId()}}</h2>
 
-<h3>姓名 : <input type="text"  ng-style="{'width':'30%','font-size':'25px'}" ng-model="name"></h3>
+<h3>姓名 : <input type="text"  ng-style="{'width':'10%','font-size':'25px'}" ng-model="name"> 
 
-<h3>地址 : <textarea ng-style="{'height':'50px','width':'20%','font-size':'20px','vertical-align':'middle'}" ng-model="address"></textarea></h3>
+    地址 : <input type="text"  ng-style="{'width':'25%','font-size':'25px'}" ng-model="address"> 
+    <!-- <textarea ng-style="{'height':'50px','width':'20%','font-size':'20px','vertical-align':'middle'}" ng-model="address"></textarea> -->
+</h3>
 
-<h3>电话 : <input type="text" ng-style="{'font-size':'20px'}" ng-model="phone"></h3>
-
-<h3>日期 : <input type="date" ng-style="{'font-size':'20px'}" ng-model="date"></h3>
+<h3>
+    电话 : <input type="text" ng-style="{'width':'15%','font-size':'20px'}" ng-model="phone">  
+    日期 : <input type="date" ng-style="{'font-size':'20px'}" ng-model="date">
+</h3>
 
 <h2>普通产品</h2>
 <table>
@@ -55,8 +58,7 @@
         </td>
         
         <td>
-
-            <select id="methods" ng-model="p.method" multiple ng-style="{'width':'128px' }" ng-change="updateRegularProductCost(this)">
+            <select id="methods" ng-model="p.method" ng-style="{'width':'128px' }" ng-change="updateRegularProductCost(this)">
               <option ng-repeat="m in Methods" value="{{m}}"> {{m}} </option>
             </select>  
         </td>

@@ -25,7 +25,7 @@ app.controller('productCtrl', function($scope, $http) {
    
   
     $scope.date = new Date();
-    
+
     //Regular Products 
     $scope.regularProducts = [ ];    
     
@@ -37,7 +37,7 @@ app.controller('productCtrl', function($scope, $http) {
             method: "",
             cost: 0,
             no: 0,
-            picture: "" 
+            picture: ""
         };
         $scope.regularProducts.push(newItem);
     }
@@ -50,18 +50,28 @@ app.controller('productCtrl', function($scope, $http) {
     }
     
     $scope.updateRegularProductCost = function (el) {
+        // console.log(el)
+        // var id = el.$index;
+        // var sum = 0;
+        // var pd = $scope.regularProducts[id];
+
+        // var selectedValues = el.p.method
+        // for (var value of selectedValues) {   
+        //     if (value in $scope.data.methodsPrice) {
+        //         sum += $scope.data.methodsPrice[value] * pd.number;
+        //     }
+        // }
+
+        // pd.cost = sum;
         console.log(el)
         var id = el.$index;
         var sum = 0;
         var pd = $scope.regularProducts[id];
 
         var selectedValues = el.p.method
-        for (var value of selectedValues) {   
-            if (value in $scope.data.methodsPrice) {
-                sum += $scope.data.methodsPrice[value] * pd.number;
+            if (selectedValues in $scope.data.methodsPrice) {
+                sum += $scope.data.methodsPrice[selectedValues] * pd.number;
             }
-        }
-
         pd.cost = sum;
     }
     
