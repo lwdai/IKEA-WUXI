@@ -154,9 +154,16 @@
         <td>
         <input list="railtypes" ng-model="p.type"></input>
             <datalist id="railtypes">
-              <option ng-repeat="x in Types" value="{{x}}"/>
+              <option ng-repeat="x in data.railparts" value="{{x}}"/>
             </datalist>
         </td>
+<!-- 
+             <td>
+            <input list="parts" ng-model="p.part" ></input>
+            <datalist id="parts">
+              <option ng-repeat="x in data.parts" value="{{x}}"/>
+            </datalist>  
+        </td> -->
         
         <td>
         <input type="number" ng-model="p.singleLength" ng-change="updateRailProductCost($index)"
