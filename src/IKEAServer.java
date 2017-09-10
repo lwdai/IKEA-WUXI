@@ -17,11 +17,11 @@ public class IKEAServer {
 
             if (query.startsWith("get")) {
                 byte[] bytes = Files.readAllBytes(Paths.get(fileName));
-                response = new String(bytes);
+                response = new String(bytes, "UTF-8");
             } else if (query.startsWith("write=")) {
                 String content = query.substring(6);
 
-                Files.write(Paths.get(fileName), content.getBytes());
+                Files.write(Paths.get(fileName), content.getBytes("UTF-8"));
             }
 
             t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
