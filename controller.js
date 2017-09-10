@@ -3,13 +3,21 @@ app.controller('productCtrl', function($scope, $http) {
     
     $scope.data = "";
     
-    $http.get("http://localhost:8080/io?get").then(function(response) {
-        $scope.data = response.data;
-        $scope.Methods = Object.keys($scope.data.methodsPrice);
-        $scope.Types = Object.keys($scope.data.hardProductPrice);
-    }).catch(function(err){
-        console.log(err)
-    });
+    $http(
+      {
+        method: "GET",
+        url: 'http://localhost:8080/io?get',
+        headers : {
+          'Content-Type' : 'application/json; charset=UTF-8'
+        }
+      } ).then(function mySuccess(response) {
+      $scope.data = response.data;
+      $scope.Methods = Object.keys($scope.data.methodsPrice);
+      $scope.Types = Object.keys($scope.data.hardProductPrice);
+    }, function myError(err) {
+      console.log(err)
+      console.log($scope.data)
+    });    
     
     $scope.getOrderId = function() {
         return ("000000" + $scope.data.orderId).slice(-6);

@@ -24,11 +24,15 @@ public class IKEAServer {
                 Files.write(Paths.get(fileName), content.getBytes());
             }
 
-            t.getResponseHeaders().add("Access-Control-Allow-Origin","*");
+            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
 
-            t.sendResponseHeaders(200, response.length());
+            byte[] responseBytes = response.getBytes("UTF-8");
+
+            t.sendResponseHeaders(200, responseBytes.length);
             OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
+
+            os.write(responseBytes);
+
             os.close();
         }
     }
