@@ -150,12 +150,9 @@
         <td><button ng-click="removeRailItem($index)"> Remove </button></td>
         
         <td>
-        <input list="types" ng-model="p.type"></input>
-            <datalist id="types">
-              <option value="Aluminum Louvers">
-              <option value="Roman curtain">
-              <option value="Wood blinds">
-              <option value="abcd">
+        <input list="railtypes" ng-model="p.type"></input>
+            <datalist id="railtypes">
+              <option ng-repeat="x in Types" value="{{x}}"/>
             </datalist>
         </td>
         
